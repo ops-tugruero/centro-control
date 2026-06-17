@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TU/GRUERO · Centro de Control</title>
+<link href="https://fonts.cdnfonts.com/css/coolvetica" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #F27730;
+    --black: #161819;
+    --bg: #ffffff;
+    --bg2: #f7f7f7;
+    --border: #e8e8e8;
+    --border2: #d4d4d4;
+    --text: #111;
+    --text-mid: #555;
+    --text-muted: #999;
+    --font-display: 'Coolvetica', 'Bebas Neue', Impact, sans-serif;
+    --font-body: 'Roboto', Arial, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  
+
+  /* ── PAGE HEADER ── */
+    .page-header {
+    padding: 28px 32px 0;
+  }
+
+  .page-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .page-date {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .datetime-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-muted);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 6px;
+  }
+
+  .dt-sep {
+    color: var(--border2);
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-top: 16px;
+  }
+
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: default;
+    transition: all 0.15s;
+  }
+
+  .tab-btn {
+    cursor: pointer;
+  }
+
+  .tab-btn:hover {
+    color: var(--text);
+    background: var(--bg2);
+    border-radius: 6px 6px 0 0;
+  }
+
+  .tab.active {
+    color: var(--text);
+    font-weight: 700;
+    border-bottom-color: var(--orange);
+  }
+
+  .tab-icon { font-size: 15px; }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    padding: 32px 32px 48px;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── CARDS ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 24px 20px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.22s ease;
+  }
+
+  .card:hover {
+    border-color: var(--border2);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  .card:hover::before { transform: scaleX(1); }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .card-icon {
+    width: 40px; height: 40px;
+    background: #fff5ee;
+    border: 1px solid #ffe0ca;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .card-num {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--border2);
+    transition: color 0.15s;
+  }
+
+  .card:hover .card-num { color: var(--orange); }
+
+  .card-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .card-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .card-cta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+
+  .card:hover .card-cta { color: var(--orange); }
+
+  .arrow {
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+
+  .card:hover .arrow { transform: translateX(4px); }
+
+  /* ── ANIMATIONS ── */
+  .card {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: up 0.4s ease forwards;
+    animation-fill-mode: forwards;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.12s; }
+  .card:nth-child(3) { animation-delay: 0.19s; }
+  .card:nth-child(4) { animation-delay: 0.26s; }
+  .card:nth-child(5) { animation-delay: 0.33s; }
+  .card:nth-child(6) { animation-delay: 0.40s; }
+  .card:nth-child(7) { animation-delay: 0.47s; }
+  .card:nth-child(8) { animation-delay: 0.54s; }
+  .card:nth-child(9) { animation-delay: 0.61s; }
+
+  @keyframes up { to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { opacity: 1; transform: none; animation: none; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 14px 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg2);
+  }
+
+  .footer-left {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .footer-badge {
+    background: var(--orange);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-top-row">
+    <img src="data:image/png;base64,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" alt="TU/GRUERO" style="height:36px;display:block;">
+    <div class="datetime-chip">
+      <span id="fdate">—</span>
+      <span class="dt-sep">·</span>
+      <span id="clock">--:--:--</span>
+    </div>
+  </div>
+  <div class="page-title">Centro de Control Operaciones</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab tab-btn active" data-filter="all">⊞ Todas</div>
+  <div class="tab tab-btn" data-filter="dashboard">📈 Dashboards</div>
+  <div class="tab tab-btn" data-filter="gestion">🔧 Gestión</div>
+  <div class="tab tab-btn" data-filter="reportes">📄 Reportes</div>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="section-label" id="section-label">Accesos directos · 9 herramientas</div>
+
+  <div class="cards">
+
+    <a class="card" data-category="dashboard" href="https://script.google.com/a/macros/tugruero.io/s/AKfycbwJmrPTWhjIEry0ngznbfMO_oUBjZdSt3V7b4bbSaf03cJ1G_tTjzb50Fsap8qKUt2E/exec" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">🔧</div>
+        <div class="card-num">01</div>
+      </div>
+      <div class="card-name">Dashboard Repuestos</div>
+      <div class="card-desc">Inventario, consumo y seguimiento de repuestos de la flota operativa.</div>
+      <div class="card-footer">
+        <span class="card-tag">Google Apps Script</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="card" data-category="dashboard" href="https://script.google.com/a/macros/tugruero.io/s/AKfycbye-IQpfTsQUNGVYuF7NxYsQbkiy7wd2pY-ipYdgyM0LrCRR3lbgRU9dYczjv9kk5zE/exec" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">🚛</div>
+        <div class="card-num">02</div>
+      </div>
+      <div class="card-name">Dashboard Flota</div>
+      <div class="card-desc">Estado operativo, disponibilidad y KPIs de camiones y motos.</div>
+      <div class="card-footer">
+        <span class="card-tag">Google Apps Script</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="card" data-category="dashboard" href="https://script.google.com/a/macros/tugruero.io/s/AKfycbxmJyxibvKr_HH9wzHNIoX5NQbrrE3_9CKz6krXnEdvopoRJxcGcyIDfxegzbWuVzVnOw/exec" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">🔩</div>
+        <div class="card-num">03</div>
+      </div>
+      <div class="card-name">Dashboard Taller</div>
+      <div class="card-desc">Gestión de órdenes de trabajo, estado de reparaciones y productividad del taller.</div>
+      <div class="card-footer">
+        <span class="card-tag">Google Apps Script</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="card" data-category="dashboard" href="https://script.google.com/a/macros/tugruero.io/s/AKfycbz5tIvCWLE3KvxFTI5z6i6zQvDQpQfoayDA8iSPBeqHh_Pk4RH2NsVF8XwsY9sK3fCB/exec" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">📋</div>
+        <div class="card-num">04</div>
+      </div>
+      <div class="card-name">Dashboard Servicios Proactivos</div>
+      <div class="card-desc">Evolución semanal, KPIs y métricas de servicios proactivos por ciudad.</div>
+      <div class="card-footer">
+        <span class="card-tag">Google Apps Script</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="card" data-category="dashboard" href="https://script.google.com/a/macros/tugruero.io/s/AKfycbwLx3SWBZfPPds4z9jWgV5p0QVOzG9qTAc_xWr3ZcvSUY7LQ1fNOOdOPRlyux1b2Pav/exec" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">⚙️</div>
+        <div class="card-num">05</div>
+      </div>
+      <div class="card-name">Dashboard Mantenimiento</div>
+      <div class="card-desc">Seguimiento de mantenimientos preventivos y correctivos de la flota.</div>
+      <div class="card-footer">
+        <span class="card-tag">Google Apps Script</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="card" data-category="gestion" href="https://tugruero-crm.vercel.app/dashboard" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">🛠️</div>
+        <div class="card-num">06</div>
+      </div>
+      <div class="card-name">CRM Mantenimiento</div>
+      <div class="card-desc">Órdenes de mantenimiento, historial por unidad y control de costos.</div>
+      <div class="card-footer">
+        <span class="card-tag">CRM · Vercel</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="card" data-category="gestion" href="https://script.google.com/a/macros/tugruero.io/s/AKfycbzqjEF7-PHM5TiLL6U4qyhTGceWwmHCXyG9PIJ73hsKygcWZ5s2NehPzBOc6--LwX7t/exec" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">📊</div>
+        <div class="card-num">07</div>
+      </div>
+      <div class="card-name">Sistema de Proyección Flota</div>
+      <div class="card-desc">Proyección y planificación de la flota: estimación de demanda y capacidad operativa.</div>
+      <div class="card-footer">
+        <span class="card-tag">Google Apps Script</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="card" data-category="reportes" href="https://script.google.com/a/macros/tugruero.io/s/AKfycbybYkv2vjLIrzg0AwDFhHcmUUl5DVofFjJ6tgHYjVd98XrDfz6PUTwwsMXziJdmFPKlwA/exec" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">⛽</div>
+        <div class="card-num">08</div>
+      </div>
+      <div class="card-name">Reporte Gasolina Grúas</div>
+      <div class="card-desc">Consumo y control de combustible de la flota de grúas.</div>
+      <div class="card-footer">
+        <span class="card-tag">Google Apps Script</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+    <a class="card" data-category="reportes" href="https://script.google.com/a/macros/tugruero.io/s/AKfycbw5habypNAAzC2vwJG-Xosf0JC3SKfYVIThF8nSDZES2tPDROW7tWYZIQHnezWzUQkCVg/exec" target="_blank" rel="noopener">
+      <div class="card-top">
+        <div class="card-icon">⛽</div>
+        <div class="card-num">09</div>
+      </div>
+      <div class="card-name">Reporte Gasolina Motos</div>
+      <div class="card-desc">Consumo y control de combustible de la flota de motos.</div>
+      <div class="card-footer">
+        <span class="card-tag">Google Apps Script</span>
+        <span class="card-cta">Abrir <span class="arrow">→</span></span>
+      </div>
+    </a>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">Soluciones Tu Gruero, C.A. · Documento interno</div>
+  <div class="footer-badge" id="fbadge">—</div>
+</footer>
+
+<script>
+  function tick() {
+    const now = new Date();
+    const d = now.toLocaleDateString('es-VE', { day: 'numeric', month: 'short', year: 'numeric' });
+    document.getElementById('fdate').textContent = d;
+    document.getElementById('clock').textContent =
+      now.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('fbadge').textContent = d.toUpperCase();
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Tab filtering
+  const tabs = document.querySelectorAll('.tab-btn');
+  const cards = document.querySelectorAll('.card');
+  const label = document.getElementById('section-label');
+
+  const labels = {
+    all: 'Accesos directos · 9 herramientas',
+    dashboard: 'Dashboards · 5 herramientas',
+    gestion: 'Gestión · 2 herramientas',
+    reportes: 'Reportes · 2 herramientas'
+  };
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      label.textContent = labels[filter];
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Safety net: si después de 1s alguna card sigue invisible, la mostramos
+  setTimeout(() => {
+    document.querySelectorAll('.card').forEach(c => {
+      c.style.opacity = '1';
+      c.style.transform = 'translateY(0)';
+    });
+  }, 1000);
+</script>
+
+</body>
+</html>
